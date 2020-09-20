@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `技術のプロテイン`,
+    title: `TechnicalProtain`,
     author: {
       name: `Ryusuke Matsumoto`,
       summary: `summary`,
