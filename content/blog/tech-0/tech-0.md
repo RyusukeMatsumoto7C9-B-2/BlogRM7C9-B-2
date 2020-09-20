@@ -11,8 +11,7 @@ date: "2020-09-20T19:15"
 
 ![image.png](res/tech-0-0.png)
 
-
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">記事用動画 <a href="https://t.co/4FRBhqSanw">pic.twitter.com/4FRBhqSanw</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1304514846722068486?ref_src=twsrc%5Etfw">September 11, 2020</a></blockquote>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">記事用動画 <a href="https://t.co/4FRBhqSanw">pic.twitter.com/4FRBhqSanw</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1304514846722068486?ref_src=twsrc%5Etfw">September 11, 2020</a></blockquote> 
 
 
 ## スクリプト
