@@ -1,16 +1,29 @@
 ---
 title: PageTemplate
-date: "2020-09-20"
+date: "2020-09-20T00:00"
 ---
 
-Wow! I love blogging so much already.
+# 見出し
+## 中見出し
+### 小見出し
 
-Did you know that "despite its name, salted duck eggs can also be made from
-chicken eggs, though the taste and texture will be somewhat different, and the
-egg yolk will be less rich."?
+リストのサンプル
+- a
+- b
+
+
 
 なんかのリンクとか  
 [Twitter Link](https://twitter.com/matsumotokaka11)
+
+
+画像のサンプル.
+![image](../../assets/matsumoto-icon.jpg)
+
+---
+
+Twitterの埋め込みコードサンプル scriptセクションは取り除いて blockquoteセクションのみを利用する必要あり
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">記事用動画 <a href="https://t.co/4FRBhqSanw">pic.twitter.com/4FRBhqSanw</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1304514846722068486?ref_src=twsrc%5Etfw">September 11, 2020</a></blockquote>
 
 
 ```csharp
