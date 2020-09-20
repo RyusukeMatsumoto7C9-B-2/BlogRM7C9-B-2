@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `RyusukeMatsumoto7C9-B-2`,
+    title: `Blogrm7C9-B-2`,
     author: {
       name: `Ryusuke Matsumoto`,
       summary: `summary`,
@@ -66,7 +66,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `content/assets/matsumoto-icon.jpg`,
       },
     },
     `gatsby-plugin-react-helmet`,
