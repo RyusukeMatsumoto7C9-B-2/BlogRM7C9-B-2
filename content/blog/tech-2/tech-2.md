@@ -1,26 +1,35 @@
 ---
-title: MagicLeapで床にオブジェクトを配置する方法
-date: "2020-09-22T04:00"
+title: MagicLeapで任意の平面にオブジェクトを置く方法
+date: "2020-09-23T01:15"
 ---
+
+[ここの記事の続き : MagicLeapで床にオブジェクトを配置する方法](https://technical-protain.netlify.app/tech-1/teck-1/)
+
+基本的な開発環境やシーンの構成は同じ
+
 
 ## 開発環境
 Unity : 2019.3.7f1  
 LuminOS : 0.98.11, APILevel 8  
 MagicLeap : UnitySDK 0.24.1  
-MagicLeap : ToolKit 特にバージョン表記等はないので現時点(2020/09/22)での最新
+MagicLeap : ToolKit 特にバージョン表記等はないので現時点(2020/09/23)での最新
 
 [MagicLeapToolKitのDLはこちらから](https://github.com/magicleap/Magic-Leap-Toolkit-Unity/blob/master/package/MagicLeap-Tools.unitypackage)  
 
 今回開発したアプリの[リポジトリ](https://github.com/RyusukeMatsumoto7C9-B-2/MagicLeap-SandBox/tree/master/MagicLeapSandBox)はこちら  
-FloorCheckシーンにサンプルが配置してあります
+PlaneCheckシーンにサンプルが配置してあります
 
+---
 
 ## 完成するもの
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">床を判定するやつ <a href="https://t.co/zzhb4lk5g2">pic.twitter.com/zzhb4lk5g2</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1308091761445597184?ref_src=twsrc%5Etfw">September 21, 2020</a></blockquote>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">任意の平面を判定するやつ <a href="https://t.co/bJ8k1Udb5k">pic.twitter.com/bJ8k1Udb5k</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1308405945387675650?ref_src=twsrc%5Etfw">September 22, 2020</a></blockquote>
 
+---
 
 ## 下準備
+
+この辺りは前回の記事と同様なので飛ばしても大丈夫です
 
 ```ProjectSettings > MagicLeap > ManifestSettings```にて以下の項目にチェックを入れました
 
@@ -30,22 +39,26 @@ FloorCheckシーンにサンプルが配置してあります
 
 ![Manifest](res/Manifest.png)
 
+---
 
-## スクリプト等
+## シーンの構成
 
-今回のスクリプトはMagicLeap ToolKitのPlaceOnFloorを改造したものです
+![Scene](res/Scene.png)
 
-![PlaceOnFloor](res/PlaceOnFloor.png)
+基本的には前回とはあまり変わってませんがどの平面を判定しているかを確認するためRuntimeConsoleを新たに追加しました
 
+RuntimeConsoleは ```MagicLeap-Tools > Prefabs > Debugging``` にあるプレハブをシーン上に配置しています
 
-素のPlaceOnFloorのままだと初回の床判定以降は床判定を行わないので何度でも床判定を行えるようにしました。
+PlaneCheckerオブジェクトにアタッチしているスクリプトで参照するので紐づけます
+![PlaneChecker](res/PlaneChecker.png)
 
 ---
 
-### 改造したFloorChecker.cs
+## スクリプト
+
+前回作成したFloorCheckerをさらに改造したPlaneCheckerを作成します
 
 ```csharp
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,31 +68,26 @@ using UnityEngine.XR.MagicLeap;
 #endif
 
 
-namespace FloorCheck
+namespace PlaneCheck
 {
     /// <summary>
     /// MagicLeapToolsのFloorOnPlaceを改造したクラス.
-    /// 床検知を何度もにできるようにする.
+    /// 任意の平面を判定する.
     /// </summary>
-    public class FloorChecker : MonoBehaviour
+    public class PlaneChecker : MonoBehaviour
     {
         readonly float HeadLocationIdleThreshold = 0.003f;
         readonly float HeadRotationIdleThreshold = .3f;
         readonly int HistoryCount = 5;
         readonly float HeadIdleRequiredDuration = .2f;
         
-        // Public Properties:
+        
         public Vector3 Location
         {
             get;
             private set;
         }
-
-        
-        [Tooltip("Does content's content match it's transform forward?")]
-        [SerializeField] bool flippedForward;
-        
-
+       
         List<Vector3> headLocationHistory;
         List<Quaternion> headRotationHistory;
         float headLocationVelocity;
@@ -90,15 +98,12 @@ namespace FloorCheck
         bool headTemporarilyIdle;
         bool headIdle;
         bool placementValid;
-        
+ 
 
-        //Init:
         void Awake()
         {
-            //refs:
             mainCamera = Camera.main.transform;
-
-            //requirements:
+            
             if (FindObjectOfType<MLSpatialMapper>() == null)
             {
                 Debug.LogError("PlaceOnFloor requires and instance of the MLSpatialMapper in your scene.");
@@ -106,19 +111,15 @@ namespace FloorCheck
         }
         
 
-        //Flow:
         void OnEnable()
         {
-            //sets:
             headLocationHistory = new List<Vector3>();
             headRotationHistory = new List<Quaternion>();
         }
 
         
-        //Loops:
         void Update()
         {
-            //let headpose warmup a little:
             if (Time.frameCount < 3)
             {
                 return;
@@ -128,7 +129,6 @@ namespace FloorCheck
         }
         
 
-        //Coroutines:
         IEnumerator HeadIdleTimeout()
         {
             yield return new WaitForSeconds(HeadIdleRequiredDuration);
@@ -223,20 +223,21 @@ namespace FloorCheck
    
         
         /// <summary>
-        /// 指定したRayの位置に床があるか否か、ある場合はその座標も返す.
+        /// 指定したRayの位置に任意の面があるか否か、ある場合はその座標も返す.
         /// </summary>
         /// <param name="ray"></param>
+        /// <param name="surfaceType"></param>
         /// <returns></returns>
         public (bool, Vector3) LookingAtFloorDetermination(
-            Ray ray)
+            Ray ray,
+            MagicLeapTools.SurfaceType surfaceType)
         {
-            //cast to see if we are looking at the floor:
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 MagicLeapTools.SurfaceType surface = MagicLeapTools.SurfaceDetails.Analyze(hit);
                 
-                if (surface == MagicLeapTools.SurfaceType.Floor)
+                if (surface == surfaceType)
                 {
                     Location = hit.point;
                     placementValid = true;
@@ -262,21 +263,71 @@ namespace FloorCheck
 
 ---
 
-### FloorCheckerを利用するFloorCheckOnPlaceContent.cs
+### この部分で任意の平面かの判定をとっています
 
 ```csharp
-using System;
+        /// <summary>
+        /// 指定したRayの位置に任意の面があるか否か、ある場合はその座標も返す.
+        /// </summary>
+        /// <param name="ray"></param>
+        /// <param name="surfaceType"></param>
+        /// <returns></returns>
+        public (bool, Vector3) LookingAtFloorDetermination(
+            Ray ray,
+            MagicLeapTools.SurfaceType surfaceType)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                MagicLeapTools.SurfaceType surface = MagicLeapTools.SurfaceDetails.Analyze(hit);
+                
+                if (surface == surfaceType)
+                {
+                    Location = hit.point;
+                    placementValid = true;
+                    return (true, Location);
+                }
+                else
+                {
+                    placementValid = false;
+                    return (false, Vector3.zero);
+                }
+            }
+            else
+            {
+                placementValid = false;
+                return (false, Vector3.zero);
+            }
+        }
+
+```  
+
+判定することが出来る平面はMagicLeapToolsのSurfaceDetils.csに定義されています  
+今回のサンプルでは床、壁、天井の三種類を判定することにしました
+![SurfaceTypes](res/SurfaceTypes.png)
+
+---
+
+### PlaneCheckerを利用するPlaneCheckOnPlaceContent.cs
+
+基本的な構成は前回のFloorCheckOnPlaceContent.csとあまり変わっていません  
+Bumperボタンを押下したら判定を切り替えるようにしています  
+ControlPointerオブジェクトのControlInputにOnBumperButtonDown()を登録
+![BumperButton](res/BumperButton.png)
+
+
+```csharp
 using MagicLeapTools;
 using UnityEngine;
 
-namespace FloorCheck
+namespace PlaneCheck
 {
     
     /// <summary>
-    /// トリガを入力したときに床を判定し、床の場合はオブジェクトを配置するサンプル.
+    /// トリガを入力したときに任意の平面を判定し、床の場合はオブジェクトを配置するサンプル.
     /// </summary>
-    [RequireComponent(typeof(FloorChecker),typeof(AudioSource))]
-    public class FloorCheckOnPlaceContent : MonoBehaviour
+    [RequireComponent(typeof(PlaneChecker),typeof(AudioSource))]
+    public class PlaneCheckOnPlaceContent : MonoBehaviour
     {
 
         [SerializeField] AudioClip pressClip;
@@ -284,22 +335,44 @@ namespace FloorCheck
         [SerializeField] AudioClip failedClip;
         [SerializeField] GameObject content;
         [SerializeField] Pointer pointer;
-        FloorChecker floorChecker;
+        [SerializeField] RuntimeConsole runtimeConsole;
+        PlaneChecker planeChecker;
         AudioSource audio;
+        SurfaceType[] surfaceTypes;
+        int index = 0;
 
-        
         void Start()
         {
-            floorChecker = GetComponent<FloorChecker>();
+            planeChecker = GetComponent<PlaneChecker>();
             audio = GetComponent<AudioSource>();
+
+            // RuntimeConsoleに自分が指定した文字列だけ表示したい.
+            runtimeConsole.errors = false;
+            runtimeConsole.logs = false;
+            runtimeConsole.warnings = false;
+
+            // 今回はこの三種類のみをチェック.
+            surfaceTypes = new[]
+            {
+                SurfaceType.Floor,   // 床.
+                SurfaceType.Wall,    // 壁.
+                SurfaceType.Ceiling, // 天井.
+            };
+        }
+
+
+        public void OnBumperButtonDown()
+        {
+            index = (int)Mathf.Repeat(index + 1, surfaceTypes.Length);
+            runtimeConsole.logText.text = surfaceTypes[index].ToString();
         }
 
 
         public void OnTriggerDown()
         {
             audio.PlayOneShot(pressClip);
-            (bool onFloor, Vector3 pos ) result = floorChecker.LookingAtFloorDetermination(new Ray(pointer.Origin, pointer.Direction));
-            if (result.onFloor)
+            (bool onSurfaceType, Vector3 pos ) result = planeChecker.LookingAtFloorDetermination(new Ray(pointer.Origin, pointer.Direction), surfaceTypes[index]);
+            if (result.onSurfaceType)
             {
                 audio.PlayOneShot(successClip);
                 content.transform.position = result.pos;
@@ -316,61 +389,20 @@ namespace FloorCheck
 }
 ```
 
-
-## シーンの構成
-
-シーンの構成は以下の画像の通りになっています
-
-![Scene](res/Scene.png)
-
 ---
-
-MainCameraは ```Assets > MagicLeap > Core > Assets > Prefabs``` にある物を使いました
-
-![MainCamera](res/MainCamera.png)
-
-
----
-
-ControlPointerは ```Assets > MagicLeap-Tools > Prefabs > Input``` から
-
-
-![ControllerPointer](res/ControllerPointer.png)
-
----
-
-今回はSpatialMapperを表示してどのメッシュの判定が通っているかをわかりやすくするので ```Assets > MagicLeap > Core > Assets > Prefabs``` のMLSpatialMapperも利用します
-
-![MLSpatialMapper](res/MLSpatialMapper.png)
-
-MLSpatialMapperにはメッシュを生成するルートとなるオブジェクトが必要なのでシーン上にMeshRootオブジェクトを作成しそれをあてがっています
-
-![SpatialMapper](res/SpatialMapper.png)
-
-
----
-
-FloorCheckerを利用するクラス等はこのような構成になります
-効果音は[魔王魂](https://maoudamashii.jokersounds.com/)さんから拝借
-
-![FloorChecker](res/FloorChecker.png)
-
-
-トリガ入力に対応して床判定を行うためにControlPointerのイベントにFloorCheckOnPlaceContentのOnTriggerDownを登録しています
-
-![Attack](res/Attack.png)
-
 
 ## 完成
 
-実機にビルド or ZeroIterationで動作確認をすれば
+これでデプロイ or ZeorIterationで確認すれば↓の様な動作になります  
+ただしRuntimeConsoleは実機にデプロイ時にしか動作しないので実機での確認のほうがどの平面を判定しているかがわかりやすいです
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">床を判定するやつ <a href="https://t.co/zzhb4lk5g2">pic.twitter.com/zzhb4lk5g2</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1308091761445597184?ref_src=twsrc%5Etfw">September 21, 2020</a></blockquote>
 
-これで床を判定し、床だけに配置したいオブジェクトとかの実装ができるようになります
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">任意の平面を判定するやつ <a href="https://t.co/bJ8k1Udb5k">pic.twitter.com/bJ8k1Udb5k</a></p>&mdash; 松本隆介 (@matsumotokaka11) <a href="https://twitter.com/matsumotokaka11/status/1308405945387675650?ref_src=twsrc%5Etfw">September 22, 2020</a></blockquote>
+
+--- 
 
 ## 感想
 
-この判定を使えば床判定の入ってるメッシュだけAgentのNavMeshを晴れたりできるかも?
+これで任意の平面にオブジェクトを配置したりできるようになりました  
+なんか家具の配置確認アプリ的なもので天井にランプをつるすとか、壁に絵を飾るとかの確認に使うのがメイン所の使い方かな?
 
-まだやってない、出来たら記事にするかもしれません
