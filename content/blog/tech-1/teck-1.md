@@ -11,7 +11,8 @@ MagicLeap : ToolKit 特にバージョン表記等はないので現時点(2020/
 
 [MagicLeapToolKitのDLはこちらから](https://github.com/magicleap/Magic-Leap-Toolkit-Unity/blob/master/package/MagicLeap-Tools.unitypackage)  
 
-今回開発したアプリの[リポジトリ](https://github.com/RyusukeMatsumoto7C9-B-2/MagicLeap-SandBox/tree/master/MagicLeapSandBox)はこちらになります
+今回開発したアプリの[リポジトリ](https://github.com/RyusukeMatsumoto7C9-B-2/MagicLeap-SandBox/tree/master/MagicLeapSandBox)はこちら  
+FloorCheckシーンにサンプルが配置してあります
 
 
 ## 完成するもの
