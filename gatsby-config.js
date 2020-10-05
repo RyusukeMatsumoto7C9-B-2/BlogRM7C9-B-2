@@ -9,6 +9,7 @@ module.exports = {
     siteUrl: `https://blogrm7c9-b-2.netlify.netlify.app/`,
     social: {
       twitter: `matsumotokaka11`,
+      facebook: `ryusukematsumotodevelop1102`
     },
   },
   plugins: [
