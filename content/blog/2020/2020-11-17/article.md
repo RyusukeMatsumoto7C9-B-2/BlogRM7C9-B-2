@@ -7,7 +7,7 @@ date: "2020-11-17T05:00"
 
 ## 導入
 
-普段はJsonUtilityを利用しているが知り合いのエンジニア曰くJson.netは割とメジャーとのことなので利用できるツールは多いほうがいいの精神の素Json.netも扱えるようにしてみた。
+普段はJsonUtilityを利用しているが知り合いのエンジニア曰くJson.netは割とメジャーとのことなので利用できるツールは多いほうがいいの精神のもとJson.netも扱えるようにしてみた。
 
 [こちらのリポジトリ](https://github.com/JamesNK/Newtonsoft.Json)のReleaseからzipファイルをDLし解凍する。
 
