@@ -26,5 +26,6 @@ date: "2020-12-31T19:00"
 [【Flutter】背景いっぱいに画像を表示する - あぼぼノート](https://aboy-perry.hatenablog.com/entry/flutter-backgroundimage)  
 
 ## 素材はここから
+[イエイヌちゃんのキャラ画像](https://seiga.nicovideo.jp/seiga/im9129454)
 [けもフレっぽい背景](https://seiga.nicovideo.jp/seiga/im6596397)  
 [けものフレンズロゴジェネレータ!](https://aratama.github.io/kemonogen/)  
