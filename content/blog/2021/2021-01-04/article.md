@@ -16,8 +16,8 @@ date: "2021-01-05T02:30"
 
 [Flutterでカメラや画像処理など、ネイティブと強く依存する場合はネイティブの画面を開いた方がいい](https://note.com/shogoyamada/n/n197e1dbfbba0)  
 [【Flutter】WidgetからImageを生成する方法（Widgetのキャプチャ）](https://www.egao-inc.co.jp/programming/flutter-convert-widget-to-image/)  
-[Flutter で 表示非表示切り替えは Visibility があるぞ。AnimatedOpacity もある。](https://zenn.dev/junki555/articles/038ed853bd72757e7ac2)
-[Flutter基礎 – Stackを使ってウィジェットを重ねる](https://uki-home.xyz/2020/03/31/2035/)
-[Flutter でタップやドラッグ、ピンチや回転などのジェスチャー操作を処理する](https://cbtdev.net/flutter-gesture-detector/)
+[Flutter で 表示非表示切り替えは Visibility があるぞ。AnimatedOpacity もある。](https://zenn.dev/junki555/articles/038ed853bd72757e7ac2)　　
+[Flutter基礎 – Stackを使ってウィジェットを重ねる](https://uki-home.xyz/2020/03/31/2035/)　　
+[Flutter でタップやドラッグ、ピンチや回転などのジェスチャー操作を処理する](https://cbtdev.net/flutter-gesture-detector/)　　
 
 
