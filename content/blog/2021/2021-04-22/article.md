@@ -57,6 +57,7 @@ Assets\MagicLeap-Tools\Code\Input\Hands\Inputs\DirectManipulation.cs(369,33): er
 ```
 
 このエラーは該当スクリプトで↓を追加して解消。
+
 ```csharp
 using MagicLeap.MRTK.DeviceManagement;
 ```
@@ -67,7 +68,7 @@ using MagicLeap.MRTK.DeviceManagement;
 Assets\MagicLeap-Tools\Code\Input\Hands\Objects\ManagedHandCollider.cs(82,52): error CS1061: 'InteractionPoint' does not contain a definition for 'DirectManipulations' and no accessible extension method 'DirectManipulations' accepting a first argument of type 'InteractionPoint' could be found (are you missing a using directive or an assembly reference?)
 ```
 
-こちらのエラーは Grasp の DirectManipulations のプロパティが削除されてるので発生してるっぽかった。
+このエラーは Grasp の DirectManipulations のプロパティが削除されてるので発生してるっぽかった。
 該当コードのコメント //only enable if we aren't directly manipulating anything: よりおそらく何かしらのオブジェクトを把持してないときに有効になる条件だと思われるので以下の様にコードを変更 ( 山勘で書いただけなのでもしかしたら違うかも...
 
 ```csharp
