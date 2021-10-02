@@ -1,8 +1,7 @@
 
-
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
-const { get } = require("lodash")
+const _ = require("lodash")
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   
@@ -10,6 +9,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // Define a template for blog post
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
+  const tagIndex = path.resolve(`./src/templates/tags-index.js`)
 
   // Get all markdown blog posts sorted by date
   const result = await graphql(
@@ -28,8 +28,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
           }
         }
-        
 
+        tags: allMarkdownRemark(limit: 1000) {
+          group(field: frontmatter___tags) {
+            fieldValue
+          }
+        }
       }
     `
   )
@@ -62,13 +66,29 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     })
   }
 
+
+  const tags = result.data.tags.group
+
+  tags.forEach(tags => {
+    createPage({
+      path: `/tags/${_.kebabCase(tags.fieldValue)}/`,
+      component: tagIndex,
+      context: {
+        tag: tags.fieldValue,
+      }
+    });
+  });
+
+  
+
+/*
   const postsEdges = result.data.allMarkdownRemark.edges;
   const tags = postsEdges.reduce((tags, edge) => {
     const edgeTags = get(edge, 'node.frontmatter.tags');
     return edgeTags ? tags.concat(edge.node.frontmatter.tags) : tags;
   }, []);
 
-  const tagTemplate = path.resolve(`./src/components/tags-index.js`);
+  const tagTemplate = path.resolve(`./src/components/templates/tags-index.js`);
   [...new Set(tags)].forEach(tag => {
     createPage({
       path: `/tags/${kebabCase(tag)}/`,
@@ -78,7 +98,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       },
     });
   });
-
+*/
 
 }
 
