@@ -78,28 +78,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       }
     });
   });
-
-  
-
-/*
-  const postsEdges = result.data.allMarkdownRemark.edges;
-  const tags = postsEdges.reduce((tags, edge) => {
-    const edgeTags = get(edge, 'node.frontmatter.tags');
-    return edgeTags ? tags.concat(edge.node.frontmatter.tags) : tags;
-  }, []);
-
-  const tagTemplate = path.resolve(`./src/components/templates/tags-index.js`);
-  [...new Set(tags)].forEach(tag => {
-    createPage({
-      path: `/tags/${kebabCase(tag)}/`,
-      component: tagTemplate,
-      context: {
-        tag,
-      },
-    });
-  });
-*/
-
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
