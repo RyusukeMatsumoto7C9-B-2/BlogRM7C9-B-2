@@ -1,7 +1,7 @@
 ---
 title: MagicLeapで床にオブジェクトを配置する方法
 date: "2020-09-22T04:00"
-tags: [Common]
+tags: [技術系,Unity,MagicLeap]
 ---
 
 ## 開発環境

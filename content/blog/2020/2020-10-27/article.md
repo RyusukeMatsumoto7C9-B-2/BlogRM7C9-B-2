@@ -1,7 +1,7 @@
 ---
 title: MagicLeap遊びの進捗
 date: "2020-10-27T01:00"
-tags: [Common]
+tags: [日記,MagicLeap]
 ---
 
 最近全く進捗上げてなかったけど一段落ついた

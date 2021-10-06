@@ -1,7 +1,7 @@
 ---
 title: 名著が届いた
 date: "2020-10-26T22:00"
-tags: [Common]
+tags: [日記]
 ---
 
 ![img](/res/DSC_0043.JPG)
