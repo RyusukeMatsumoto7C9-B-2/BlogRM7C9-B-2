@@ -6,10 +6,13 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
 
-const TagIndexTamplate = ({ data, location }) => {
-  //const siteTitle = data.site.siteMetadata?.title || `Title`
-  const siteTitle = `Tag毎の一覧ページ作成予定地`
+const TagIndexTamplate = ({ data, location, pageContext }) => {
+
   const posts = data.allMarkdownRemark.nodes
+  const siteTitle = data.site.siteMetadata.title
+  const { totalCount } = data.allMarkdownRemark
+  const { tag } = pageContext
+  const tagHeader = `${totalCount} post${totalCount === 1 ? '' : 's'} tagged with "${tag}"`
 
   if (posts.length === 0) {
     return (
@@ -25,6 +28,9 @@ const TagIndexTamplate = ({ data, location }) => {
     <Layout location={location} title={siteTitle}>
       <SEO title="All posts" />
       <Bio />
+      
+      <h1>{tagHeader}</h1>
+
       {posts.map((post) => {
         const title = post.frontmatter.title || post.fields.slug
         return (
@@ -67,24 +73,30 @@ const TagIndexTamplate = ({ data, location }) => {
 export default TagIndexTamplate
 
 export const pageQuery = graphql`
-  query {
+  query($tag: String) {
     site {
       siteMetadata {
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      nodes {
-        excerpt
-        fields {
-          slug
-        }
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
-          title
-          description
-        }
+    allMarkdownRemark(
+      limit: 2000
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { frontmatter: { tags: { in: [$tag] } } }
+      ) {
+        nodes {
+          excerpt
+          fields {
+            slug
+          }
+          frontmatter {
+            date(formatString: "MMMM DD, YYYY")
+            title
+            description
+            tags
+          }
       }
+      totalCount
     }
   }
 `
