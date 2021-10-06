@@ -1,6 +1,7 @@
 ---
 title: MagicLeapで任意の平面にオブジェクトを置く方法
 date: "2020-09-23T01:15"
+tags: [技術系,Unity,MagicLeap]
 ---
 
 [ここの記事の続き : MagicLeapで床にオブジェクトを配置する方法](https://technical-protain.netlify.app/tech-1/teck-1/)

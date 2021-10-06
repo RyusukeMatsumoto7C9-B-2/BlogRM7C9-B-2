@@ -1,6 +1,7 @@
 ---
 title: VRoid製のVRMモデルをVRChatに持っていく方法
 date: "2020-12-25T05:00"
+tags: [技術系,Unity]
 ---
 
 # 備忘録
