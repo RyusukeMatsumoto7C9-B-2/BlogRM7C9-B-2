@@ -1,6 +1,7 @@
 ---
 title: 新しい本が来た
 date: "2020-11-08T05:00"
+tags: [Common]
 ---
 
 ![img](res/DSC_0046.JPG)

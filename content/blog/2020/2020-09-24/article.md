@@ -1,6 +1,7 @@
 ---
 title: MagicLeapのSpatialMapにNavMeshを張り付けてオブジェクトを動かす
 date: "2020-09-24T00:00"
+tags: [Common]
 ---
 
 以前HoloLensのランタイムに生成したメッシュにNavMeshを張り付けてオブジェクトを動かす記事があったのでMagicLeapのSpatialMapにも使えるのでは?と思い試してみた

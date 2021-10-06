@@ -1,7 +1,7 @@
 ---
 title: MagicLeapのプロジェクトにMRTKを導入してみた
 date: "2021-04-22T00:30"
-tags: [tech]
+tags: [技術系]
 ---
 
 MagicLeapの公式にてMRTKに対応したとのことなので趣味で開発してるMagicLeapプロジェクトにMRTKを軽い気持ちでぶち込んでみたら数十のエラーに襲われた話。
